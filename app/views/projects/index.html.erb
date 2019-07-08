@@ -1,6 +1,6 @@
 <% @projects.each do |project|  %>
-<h2><%= link_to project.description, project_path(project) %></h2>
-<p><%= project.description%></p>
+<h2><%= link_to project.title, project_path(project) %></h2>
+<p><%= project.title%></p>
 <p><%= project.due_date %></p>
 
 <hr>

@@ -1,0 +1,24 @@
+
+  <%= @tasks.each do |task|%>
+  
+  
+<% if task.completed == true %>
+<h1> Completed </h1>
+<ul class="answer-list">
+
+<li><%= task.title%></li>
+<li><%= task.body%></li>
+<li><%= task.due_date%></li>
+
+</ul>
+<% else %>
+<h1> Not completed </h1>
+<ul class="answer-list">
+
+<li><%= task.title%></li>
+<li><%= task.body%></li>
+<li><%= task.due_date%></li>
+
+</ul>
+<% end %>
+<% end %>

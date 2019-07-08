@@ -4,3 +4,66 @@
 <p><%= link_to "Edit", edit_project_path(@project) %></p>
 <p><%= link_to "Delete", project_path(@project),
 method: :delete, data: {confirm: "Are you sure?"} %></p>
+
+<%= form_with(model: [@project, @task], local: true) do |f| %>
+<% if @task.errors.any?%>
+<ul>
+<% @task.errors.full_messages.each do |message| %>
+<li><%= message %></li>
+<% end %>
+</ul>
+<% end %>
+ 
+ <div>
+<%= f.label "name of task" %>
+<%= f.text_field :title %>
+ </div>
+
+
+ <div class="form-group">
+    <%= f.text_area(
+    :body,
+    cols: 50,
+    rows: 5,
+    placeholder: "What is your tasks?",
+    class: "form-control"
+    ) %>
+  </div>
+
+ <div>
+ <%= f.check_box :completed%>
+ </div>
+
+<div>
+<%= f.label :due_date%>
+<%= f.text_field :due_date =%>
+</div>
+
+
+  <%= f.submit "Task"%>
+  <% end %>
+
+
+  <%= @tasks.each do |task|%>
+  
+  
+<% if task.completed == true %>
+<h1> Completed </h1>
+<ul class="answer-list">
+
+<li><%= task.title%></li>
+<li><%= task.body%></li>
+<li><%= task.due_date%></li>
+
+</ul>
+<% else %>
+<h1> Not completed </h1>
+<ul class="answer-list">
+
+<li><%= task.title%></li>
+<li><%= task.body%></li>
+<li><%= task.due_date%></li>
+
+</ul>
+<% end %>
+<% end %>
