@@ -1,3 +1,5 @@
 class Comment < ApplicationRecord
     validates(:body, presence: true)
-   end
+belongs_to :discussion
+belongs_to :users
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_07_062228) do
+ActiveRecord::Schema.define(version: 2019_07_08_041752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,13 +19,21 @@ ActiveRecord::Schema.define(version: 2019_07_07_062228) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "discussion_id"
+    t.bigint "user_id"
+    t.index ["discussion_id"], name: "index_comments_on_discussion_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "discussions", force: :cascade do |t|
     t.string "title"
-    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "body"
+    t.bigint "project_id"
+    t.bigint "user_id"
+    t.index ["project_id"], name: "index_discussions_on_project_id"
+    t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -34,6 +42,8 @@ ActiveRecord::Schema.define(version: 2019_07_07_062228) do
     t.date "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -44,8 +54,26 @@ ActiveRecord::Schema.define(version: 2019_07_07_062228) do
     t.text "body"
     t.boolean "completed"
     t.bigint "project_id"
+    t.bigint "user_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  add_foreign_key "comments", "discussions"
+  add_foreign_key "comments", "users"
+  add_foreign_key "discussions", "projects"
+  add_foreign_key "discussions", "users"
+  add_foreign_key "projects", "users"
   add_foreign_key "tasks", "projects"
+  add_foreign_key "tasks", "users"
 end
